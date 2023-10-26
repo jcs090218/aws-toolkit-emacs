@@ -4,6 +4,8 @@
 # AWS Toolkit for Emacs
 > AWS Toolkit for Emacs - a plugin for interacting with AWS from Emacs editor
 
+[![CI](https://github.com/jcs090218/aws-toolkit-emacs/actions/workflows/test.yml/badge.svg)](https://github.com/jcs090218/aws-toolkit-emacs/actions/workflows/test.yml)
+
 AWS Toolkit for Emacs is a plugin for Emacs editor that make it easier to write applications built on [Amazon Web Services][]
 
 ## Licensing
