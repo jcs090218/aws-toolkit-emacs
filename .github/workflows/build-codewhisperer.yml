@@ -1,0 +1,54 @@
+name: Build Codewhisperer
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: 'aws/aws-toolkit-common'
+
+    - name: Build
+      working-directory: lsp
+      run:
+        npm run package
+
+    - name: Upload aws-lsp-buildspec-binary
+      uses: actions/upload-artifact@v1
+      working-directory: lsp
+      with:
+        name: aws-lsp-buildspec-binary.zip
+        path: app/aws-lsp-buildspec-binary.zip
+
+    - name: Upload aws-lsp-cloudformation-binary
+      uses: actions/upload-artifact@v1
+      working-directory: lsp
+      with:
+        name: aws-lsp-cloudformation-binary.zip
+        path: app/aws-lsp-cloudformation-binary.zip
+
+    - name: Upload aws-lsp-codewhisperer-binary
+      uses: actions/upload-artifact@v1
+      working-directory: lsp
+      with:
+        name: aws-lsp-codewhisperer-binary.zip
+        path: app/aws-lsp-codewhisperer-binary.zip
+
+    - name: Upload aws-lsp-s3-binary
+      uses: actions/upload-artifact@v1
+      working-directory: lsp
+      with:
+        name: aws-lsp-s3-binary.zip
+        path: app/aws-lsp-s3-binary.zip

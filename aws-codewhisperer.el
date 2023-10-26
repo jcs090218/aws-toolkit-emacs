@@ -1,13 +1,6 @@
-;;; aws.el --- AWS Toolkit  -*- lexical-binding: t; -*-
+;;; aws-codewhisperer.el --- AI Code Generator  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Shen, Jen-Chieh
-
-;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Maintainer: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; URL: https://github.com/jcs090218/aws-toolkit-emacs
-;; Version: 0.1.0
-;; Package-Requires: ((emacs "27.1") (lsp-mode "6.1"))
-;; Keywords: aws convenience
 
 ;; This file is not part of GNU Emacs.
 
@@ -26,18 +19,12 @@
 
 ;;; Commentary:
 ;;
-;; AWS Toolkit
+;; AI Code Generator
 ;;
 
 ;;; Code:
 
-(require 'lsp-mode)
 
-(defgroup aws nil
-  "AWS Toolkit."
-  :prefix "aws-"
-  :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs090218/aws-toolkit-emacs"))
 
-(provide 'aws)
-;;; aws.el ends here
+(provide 'aws-codewhisperer)
+;;; aws-codewhisperer.el ends here
