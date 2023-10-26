@@ -2,7 +2,7 @@
          "0.1.0"
          "AWS Toolkit")
 
-(website-url "https://github.com/jcs090218/aws")
+(website-url "https://github.com/jcs090218/aws-toolkit-emacs")
 (keywords "aws" "convenience")
 
 (package-file "aws.el")
