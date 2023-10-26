@@ -24,7 +24,31 @@
 
 ;;; Code:
 
+(require 'aws)
 
+(defcustom aws-codewhisperer-server-path nil
+  "Path points for Codewhisperer code assistant.
+
+This is only for development use."
+  :type 'string
+  :group 'aws)
+
+(defun aws-codewhisperer--server-command ()
+  "Generate startup command for Codewhisperer."
+  (or (and aws-codewhisperer-server-path
+           (list aws-codewhisperer-server-path "--stdio"))
+      (list (lsp-package-path 'codewhisperer) "--stdio")))
+
+(lsp-register-client
+ (make-lsp-client
+  :new-connection (lsp-stdio-connection #'aws-codewhisperer--server-command)
+  :priority -1
+  :activation-fn (lsp-activate-on "codewhisperer")
+  :add-on? t
+  :server-id 'codewhisperer
+  :download-server-fn (lambda (_client callback error-callback _update?)
+                        (user-error "")
+                        )))
 
 (provide 'aws-codewhisperer)
 ;;; aws-codewhisperer.el ends here
