@@ -10,6 +10,14 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+        - aws-lsp-buildspec-binary
+        - aws-lsp-cloudformation-binary
+        - aws-lsp-codewhisperer
+        - aws-lsp-s3-binary
 
     steps:
     - uses: actions/checkout@v4
@@ -21,30 +29,9 @@ jobs:
       run:
         npm run package
 
-    - name: Upload aws-lsp-buildspec-binary
+    - name: Upload ${{ matrix.target }}
       uses: actions/upload-artifact@v1
       working-directory: lsp
       with:
-        name: aws-lsp-buildspec-binary.zip
-        path: app/aws-lsp-buildspec-binary.zip
-
-    - name: Upload aws-lsp-cloudformation-binary
-      uses: actions/upload-artifact@v1
-      working-directory: lsp
-      with:
-        name: aws-lsp-cloudformation-binary.zip
-        path: app/aws-lsp-cloudformation-binary.zip
-
-    - name: Upload aws-lsp-codewhisperer-binary
-      uses: actions/upload-artifact@v1
-      working-directory: lsp
-      with:
-        name: aws-lsp-codewhisperer-binary.zip
-        path: app/aws-lsp-codewhisperer-binary.zip
-
-    - name: Upload aws-lsp-s3-binary
-      uses: actions/upload-artifact@v1
-      working-directory: lsp
-      with:
-        name: aws-lsp-s3-binary.zip
-        path: app/aws-lsp-s3-binary.zip
+        name: ${{ matrix.target }}.zip
+        path: app/${{ matrix.target }}.zip
