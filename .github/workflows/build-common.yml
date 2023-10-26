@@ -15,11 +15,16 @@ jobs:
       with:
         repository: 'aws/aws-toolkit-common'
 
-    - name: Build
+    - name: Build aws-toolkit-common
       working-directory: lsp
       run:
         npm run package
 
+    - name: Rename app
+      working-directory: lsp
+      run:
+        mv ./app ./aws-toolkit-common
+        
     - name: Upload aws-toolkit-common
       uses: actions/upload-artifact@v1
       with:
