@@ -31,7 +31,11 @@
 
 ;;; Code:
 
-
+(defgroup aws nil
+  "AWS Toolkit."
+  :prefix "aws-"
+  :group 'tool
+  :link '(url-link :tag "Repository" "https://github.com/jcs090218/aws-toolkit-emacs"))
 
 (provide 'aws)
 ;;; aws.el ends here
