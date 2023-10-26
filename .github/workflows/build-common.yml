@@ -29,4 +29,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: aws-toolkit-common.zip
-        path: lsp/app/
+        path: lsp/aws-toolkit-common/
