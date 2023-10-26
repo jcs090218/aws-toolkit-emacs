@@ -1,4 +1,4 @@
-name: Build Codewhisperer
+name: Build Common
 
 on:
   workflow_dispatch:
