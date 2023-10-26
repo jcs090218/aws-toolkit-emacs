@@ -10,15 +10,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-        - aws-lsp-buildspec-binary
-        - aws-lsp-cloudformation-binary
-        - aws-lsp-codewhisperer
-        - aws-lsp-s3-binary
-
     steps:
     - uses: actions/checkout@v4
       with:
@@ -29,8 +20,8 @@ jobs:
       run:
         npm run package
 
-    - name: Upload ${{ matrix.target }}
+    - name: Upload aws-toolkit-common
       uses: actions/upload-artifact@v1
       with:
-        name: ${{ matrix.target }}.zip
-        path: lsp/app/${{ matrix.target }}
+        name: aws-toolkit-common.zip
+        path: lsp/app/
