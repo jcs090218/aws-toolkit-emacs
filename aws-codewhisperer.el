@@ -34,7 +34,11 @@ This is only for development use."
   :type 'string
   :group 'aws)
 
-(defconst aws-codewhisperer-executable
+(defconst aws-codewhisperer-server-root
+  (f-join aws-lsp-server-root "aws-lsp-codewhisperer-binary")
+  "Root path points to Codewhisperer language server.")
+
+(defconst aws-codewhisperer-executable-name
   (concat "aws-lsp-codewhisperer-binary-"
           (pcase system-type
             ('windows-nt                        "win.exe")
@@ -42,15 +46,23 @@ This is only for development use."
             ((or 'gnu 'gnu/linux 'gnu/kfreebsd) "linux")))
   "Name of the AWS Codewhisperer executable.")
 
+(defconst aws-codewhisperer-executable
+  (f-join aws-codewhisperer-server-root
+          "bin"
+          aws-codewhisperer-executable-name)
+  "Root path points to Codewhisperer language server.")
+
 (defun aws-codewhisperer--server-command ()
   "Generate startup command for Codewhisperer."
   (or (and aws-codewhisperer-server-path
            (list aws-codewhisperer-server-path "--stdio"))
-      (list (f-join aws-server-root
-                    "aws-lsp-codewhisperer-binary"
-                    "bin"
-                    aws-codewhisperer-executable)
-            "--stdio")))
+      (list aws-codewhisperer-executable "--stdio")))
+
+(lsp-dependency
+ 'codewhisperer
+ '(:system "codewhisperer")
+ `(:download :url ,aws-server-download-url
+             :store-path ,aws-codewhisperer-server-root))
 
 (lsp-register-client
  (make-lsp-client
@@ -61,7 +73,7 @@ This is only for development use."
   :server-id 'codewhisperer
   :download-server-fn
   (lambda (_client callback error-callback _update?)
-    (lsp-package-ensure 'codewhisperer #'aws-codewhisperer-install-ls error-callback))))
+    (lsp-package-ensure 'codewhisperer #'aws-lsp-install error-callback))))
 
 (provide 'aws-codewhisperer)
 ;;; aws-codewhisperer.el ends here

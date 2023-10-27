@@ -20,17 +20,8 @@ jobs:
       run:
         npm run package
 
-    - name: Rename app
-      working-directory: lsp
-      run:
-        mv ./app ./aws-toolkit-common
-
-    - name: Tar files
-      working-directory: lsp
-      run: tar -cvf aws-toolkit-common.tar ./aws-toolkit-common
-
     - name: Upload aws-toolkit-common
       uses: actions/upload-artifact@v3
       with:
-        name: aws-toolkit-common.tar
-        path: lsp/aws-toolkit-common.tar
+        name: aws-toolkit-common
+        path: lsp/app

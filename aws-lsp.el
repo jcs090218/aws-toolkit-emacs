@@ -22,15 +22,26 @@
 
 ;;; Code:
 
-(defconst aws-server-root
-  (f-join lsp-server-install-dir "aws-toolkit")
-  "Path points for Codewhisperer code assistant.")
+(defcustom aws-lsp-server-version "0.0.1"
+  "The language server's version."
+  :type 'string
+  :group 'aws)
 
-(defun aws-codewhisperer-install-ls ()
-  "Install LTEX language server."
-  (let* ((tar (lsp-ltex--downloaded-extension-path))
+(defconst aws-lsp-server-root
+  (f-join lsp-server-install-dir "aws-toolkit-common")
+  "Root path to store all AWS language servers.")
+
+(defconst aws-lsp-server-download-url
+  (format
+   "https://github.com/jcs090218/aws-toolkit-emacs/releases/download/%s/aws-toolkit-common.tar"
+   aws-lsp-server-version)
+  "Server download URL.")
+
+(defun aws-lsp-install ()
+  "Install language servers from `aws-toolkit-common'."
+  (let* ((tar aws-codewhisperer-server-root)
          (dest (file-name-directory tar))
-         (output (expand-file-name aws-codewhisperer-server-path dest))
+         (output (expand-file-name aws-lsp-server-root dest))
          (latest (expand-file-name "latest" (file-name-directory output)))
          (is-windows (eq system-type 'windows-nt)))
     (if (aws--execute "tar" "-xvzf" tar "-C" dest)
