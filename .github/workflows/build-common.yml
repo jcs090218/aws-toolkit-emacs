@@ -32,5 +32,5 @@ jobs:
     - name: Upload aws-toolkit-common
       uses: actions/upload-artifact@v3
       with:
-        name: aws-toolkit-common
+        name: aws-toolkit-common.tar
         path: lsp/aws-toolkit-common.tar

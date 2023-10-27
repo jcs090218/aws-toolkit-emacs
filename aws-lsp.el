@@ -22,26 +22,22 @@
 
 ;;; Code:
 
-(defcustom aws-codewhisperer-server-path
+(defconst aws-server-root
   (f-join lsp-server-install-dir "aws-toolkit")
-  "Path points for Codewhisperer code assistant.
-
-This is only for development use."
-  :type 'string
-  :group 'aws)
+  "Path points for Codewhisperer code assistant.")
 
 (defun aws-codewhisperer-install-ls ()
   "Install LTEX language server."
   (let* ((tar (lsp-ltex--downloaded-extension-path))
          (dest (file-name-directory tar))
-         (output (expand-file-name lsp-ltex--filename dest))
+         (output (expand-file-name aws-codewhisperer-server-path dest))
          (latest (expand-file-name "latest" (file-name-directory output)))
          (is-windows (eq system-type 'windows-nt)))
     (if (aws--execute "tar" "-xvzf" tar "-C" dest)
         (unless (aws--execute (if is-windows "move" "mv")
                               (unless is-windows "-f")
                               output latest)
-          (error "[ERROR] Failed to rename version `%s` to latest" lsp-ltex-version))
+          (error "[ERROR] Failed to rename version `aws-toolkit-common' to the latest"))
       (error "[ERROR] Failed to unzip tar, %s" tar))))
 
 (provide 'aws-lsp)
