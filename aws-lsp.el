@@ -37,8 +37,17 @@
    aws-lsp-server-version)
   "Server download URL.")
 
+(defun aws-lsp-uninstall ()
+  "Install language servers for `aws-toolkit-common'."
+  (interactive)
+  (when (file-directory-p aws-lsp-server-root)
+    (ignore-errors (delete-directory aws-lsp-server-root t))
+    (message "Server `%s' uninstalled." aws-lsp-server-root)))
+
 (defun aws-lsp-install ()
   "Install language servers from `aws-toolkit-common'."
+  (interactive)
+  (aws-lsp-uninstall)
   (let* ((tar aws-codewhisperer-server-root)
          (dest (file-name-directory tar))
          (output (expand-file-name aws-lsp-server-root dest))
