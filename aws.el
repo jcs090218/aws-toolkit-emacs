@@ -39,5 +39,14 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/aws-toolkit-emacs"))
 
+(defun aws--execute (cmd &rest args)
+  "Return non-nil if CMD executed succesfully with ARGS."
+  (save-window-excursion
+    (lsp-ltex--mute-apply
+      (= 0 (shell-command (concat cmd " "
+                                  (mapconcat #'shell-quote-argument
+                                             (cl-remove-if #'null args)
+                                             " ")))))))
+
 (provide 'aws)
 ;;; aws.el ends here

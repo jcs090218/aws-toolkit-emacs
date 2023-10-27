@@ -25,19 +25,25 @@
 ;;; Code:
 
 (require 'aws)
+(require 'aws-lsp)
 
-(defcustom aws-codewhisperer-server-path nil
-  "Path points for Codewhisperer code assistant.
-
-This is only for development use."
-  :type 'string
-  :group 'aws)
+(defconst aws-codewhisperer-executable
+  (concat "aws-lsp-codewhisperer-binary-"
+          (pcase system-type
+            ('windows-nt                        "win.exe")
+            ('darwin                            "macos")
+            ((or 'gnu 'gnu/linux 'gnu/kfreebsd) "linux")))
+  "Name of the AWS Codewhisperer executable.")
 
 (defun aws-codewhisperer--server-command ()
   "Generate startup command for Codewhisperer."
-  (or (and aws-codewhisperer-server-path
-           (list aws-codewhisperer-server-path "--stdio"))
-      (list (lsp-package-path 'codewhisperer) "--stdio")))
+  (list (if (file-exists-p aws-codewhisperer-server-path)
+            aws-codewhisperer-server-path
+          (f-join aws-codewhisperer-server-path
+                  "aws-lsp-codewhisperer-binary"
+                  "bin"
+                  aws-codewhisperer-executable))
+        "--stdio"))
 
 (lsp-register-client
  (make-lsp-client
@@ -46,9 +52,9 @@ This is only for development use."
   :activation-fn (lsp-activate-on "codewhisperer")
   :add-on? t
   :server-id 'codewhisperer
-  :download-server-fn (lambda (_client callback error-callback _update?)
-                        (user-error "")
-                        )))
+  :download-server-fn
+  (lambda (_client callback error-callback _update?)
+    (lsp-package-ensure 'codewhisperer #'aws-codewhisperer-install-ls error-callback))))
 
 (provide 'aws-codewhisperer)
 ;;; aws-codewhisperer.el ends here
