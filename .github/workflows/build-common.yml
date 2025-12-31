@@ -25,7 +25,7 @@ jobs:
       run: tar -cvf aws-toolkit-common.tar -C ./app .
 
     - name: Upload aws-toolkit-common
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: aws-toolkit-common
         path: lsp/aws-toolkit-common.tar
